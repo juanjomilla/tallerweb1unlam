@@ -17,6 +17,14 @@ public class Ciudad {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Pais pais;
 
+	public Ciudad(String nombre, Ubicacion ubicacionGeografica, Pais pais) {
+		this.nombre = nombre;
+		this.ubicacionGeografica = ubicacionGeografica;
+		this.pais = pais;
+	}
+
+	public Ciudad() {
+	}
 	public Long getId() {
 		return this.id;
 	}

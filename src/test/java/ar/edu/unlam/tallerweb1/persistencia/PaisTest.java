@@ -117,4 +117,42 @@ public class PaisTest extends SpringTest{
 
 
     }
+    @SuppressWarnings("unchecked")
+    @Test
+    @Transactional
+    @Rollback
+    public void buscarPaisesDelHemisferioSur() {
+
+        Session session = getSession();
+
+        Ubicacion ubicacionLima = new Ubicacion(-77.0282400, -12.0431800);
+        Ubicacion ubicacionOttawa = new Ubicacion(-75.69, 45.4208);
+
+        session.save(ubicacionLima);
+        session.save(ubicacionOttawa);
+
+        Pais peru = new Pais();
+        Pais canada = new Pais();
+
+        Ciudad lima = new Ciudad("lima", ubicacionLima, peru);
+        Ciudad ottawa = new Ciudad("ottawa", ubicacionOttawa, canada);
+
+        peru.setCapital(lima);
+        canada.setCapital(ottawa);
+
+        session.save(lima);
+        session.save(ottawa);
+
+        session.save(peru);
+        session.save(canada);
+
+        List<Pais> Resultado = getSession().createCriteria(Pais.class)
+                .createAlias("capital", "capital")
+                .createAlias("capital.ubicacionGeografica", "ubicacion")
+                .add(Restrictions.lt("ubicacion.latitud", 00.00))
+                .list();
+
+        assertThat(Resultado).hasSize(1);
+    }
+
 }

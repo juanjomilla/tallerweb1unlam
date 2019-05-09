@@ -12,7 +12,8 @@ public class Pais {
 	private String nombre;
 	private long habitantes;
 	private String idioma;
-	private String capital;
+	@OneToOne
+	private Ciudad capital;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Continente continente;
@@ -45,11 +46,11 @@ public class Pais {
 		this.habitantes = habitantes;
 	}
 
-	public String getCapital() {
+	public Ciudad getCapital() {
 		return capital;
 	}
 
-	public void setCapital(String capital) {
+	public void setCapital(Ciudad capital) {
 		this.capital = capital;
 	}
 
